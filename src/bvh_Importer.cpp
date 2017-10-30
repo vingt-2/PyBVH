@@ -183,8 +183,6 @@ void ReadFrameRecursive(vector<string>& tokens,
 	for (int r = 0; r < 3; r++)
 		rotation *= transpose(GetRotationMatrix(jointsChannelOrderings[joint->GetName()][bIsRoot ? r + 3 : r], atof(tokens[currentToken + r].c_str())));
 
-	//rotation = transpose(rotation);
-
 	Transform jointTransform = Transform(rotation, joint->GetLocalOffset());
 
 	unordered_map<string, vector<Transform>>::const_iterator mapIterator = jointTransforms.find(joint->GetName());
