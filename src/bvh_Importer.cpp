@@ -181,7 +181,7 @@ void ReadFrameRecursive(vector<string>& tokens,
 	mat3 rotation = mat3(1);
 
 	for (int r = 0; r < 3; r++)
-		rotation *= GetRotationMatrix(jointsChannelOrderings[joint->GetName()][bIsRoot ? r + 3 : r], atof(tokens[currentToken + r].c_str()));
+		rotation *= transpose(GetRotationMatrix(jointsChannelOrderings[joint->GetName()][bIsRoot ? r + 3 : r], atof(tokens[currentToken + r].c_str())));
 
 	Transform jointTransform = Transform(rotation, joint->GetLocalOffset());
 
