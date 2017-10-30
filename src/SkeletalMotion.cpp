@@ -127,7 +127,7 @@ unordered_map<string, Transform>* cumulativeTransformsByName
 )
 {
 	vec3 jointPositionL = joint->GetLocalOffset();
-	vec3 jointPositionW = cumulativeTransform * vec4(jointPositionL[0], jointPositionL[1], jointPositionL[2], 1) * skeletonScale;
+	vec3 jointPositionW = cumulativeTransform.TransformPoint(jointPositionL) * skeletonScale;
 
 	if (cumulativeTransformsByName)
 	{

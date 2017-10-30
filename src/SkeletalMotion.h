@@ -38,6 +38,8 @@ public:
 	Transform(mat3 rotation, vec3 origin);
 	~Transform();
 
+	mat4 m_transformMatrix;
+
 	void SetOrigin(vec3 origin);
 	void SetRotation(mat3 rotation);
 
@@ -58,11 +60,9 @@ public:
 
 	vec3 Rotate(vec3 direction) { return vec3(*this*vec4(direction, 0)); }
 
-	vec3 TransformPoint(vec3 point) { return vec3(*this*vec4(point, 1)); }
-
+	vec3 TransformPoint(vec3 point) { return vec3(this->m_transformMatrix*vec4(point, 1)); }
 private:
 	Transform(mat4 transformMatrix) { m_transformMatrix = transformMatrix; }
-	mat4 m_transformMatrix;
 };
 
 class SkeletonJoint
