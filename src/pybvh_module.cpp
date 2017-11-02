@@ -155,6 +155,14 @@ PyObject* cSkeletalMotion_GetCumulativeTransform(PyObject *self, PyObject *args)
 	return jointTransformPythonDict;
 }
 
+PyObject* cSkeletalMotion_GetSamplingRate(PyObject *self, PyObject *args) {
+	PyObject *pyInst;
+	PyArg_ParseTuple(args, "O", &pyInst);
+	SkeletalMotion* skeletalMotionInstance = (SkeletalMotion*)PyCapsule_GetPointer(pyInst, "SkeletalMotion");
+
+	return PyFloat_FromDouble((double)1.0f/skeletalMotionInstance->GetSamplingRate());
+}
+
 PyMethodDef cSkeletalMotion_funcs[] = {
 	{ "loadBVH" , cSkeletalMotion_LoadBVH, METH_VARARGS, "PyBVH::LoadBVH" },
 	{ "getName", cSkeletalMotion_GetName, METH_VARARGS, "SkeletalMotion::GetName" },
@@ -162,6 +170,7 @@ PyMethodDef cSkeletalMotion_funcs[] = {
 	{ "setNormalizedScale", cSkeletalMotion_SetNormalizedScale, METH_VARARGS, "SkeletalMotion::SetNormalizedScale" },
 	{ "getJointPositions", cSkeletalMotion_GetJointPositions, METH_VARARGS, "SkeletalMotion::GetJointPositions" },
 	{ "getCumTransform", cSkeletalMotion_GetCumulativeTransform, METH_VARARGS, "SkeletalMotion::GetCumulativeTransforms" },
+	{ "getSamplingRate", cSkeletalMotion_GetSamplingRate, METH_VARARGS, "SkeletalMotion::GetSamplingRate" },
 	{ NULL, NULL, 0, NULL }    /* Sentinel */
 };
 

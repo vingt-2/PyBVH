@@ -1,4 +1,7 @@
 import PyBVH.cSkeletalMotion as csk
+import numpy as np
+class Transform:
+	
 
 class SkeletalMotion:
 	def __init__(self, c_instance):
@@ -22,3 +25,6 @@ class SkeletalMotion:
 	
 	def GetCumulativeTransforms(self, frame_index, add_root=False):
 		return csk.getCumTransform(self.c_instance, frame_index, 1 if add_root else 0)
+		
+	def GetSamplingRate(self):
+		return csk.getSamplingRate(self.c_instance)
