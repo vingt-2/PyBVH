@@ -97,6 +97,8 @@ public:
 	*/
 	void QuerySkeleton(unordered_map<string, SkeletonJoint*>* jointPointersByNames, vector<pair<string, string>>* bonesByJointNames);
 
+	void GetJointNamesInOrder(std::vector<std::string> &jointNames);
+
 	void PrintJoint();
 
 private:

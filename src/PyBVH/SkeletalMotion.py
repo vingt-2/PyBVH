@@ -1,7 +1,5 @@
 import PyBVH.cSkeletalMotion as csk
 import numpy as np
-class Transform:
-	
 
 class SkeletalMotion:
 	def __init__(self, c_instance):
@@ -28,3 +26,9 @@ class SkeletalMotion:
 		
 	def GetSamplingRate(self):
 		return csk.getSamplingRate(self.c_instance)
+		
+	def GetJointNames(self):
+		return csk.getJointNames(self.c_instance)
+		
+	def GetBonesByNames(self):
+		return csk.getBonesByJointNames(self.c_instance)

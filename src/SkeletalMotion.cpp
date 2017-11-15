@@ -33,6 +33,18 @@ void PrintJointRecursive(SkeletonJoint* joint, int depth)
 		PrintJointRecursive(child, depth + 1);
 }
 
+void GetJointNamesRecursive(SkeletonJoint* joint, std::vector <std::string> &vector)
+{
+	vector.push_back(joint->GetName());
+	for (auto child : joint->GetDirectChildren())
+		GetJointNamesRecursive(child, vector);
+}
+
+void SkeletonJoint::GetJointNamesInOrder(std::vector <std::string> &vector)
+{
+	GetJointNamesRecursive(this, vector);
+}
+
 void SkeletonJoint::PrintJoint()
 {
 	PrintJointRecursive(this, 0);

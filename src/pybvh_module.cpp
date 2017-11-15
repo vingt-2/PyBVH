@@ -131,6 +131,62 @@ PyObject* cSkeletalMotion_GetJointPositions(PyObject *self, PyObject *args) {
 	return Vector3List_ToPython(jointPositions);
 }
 
+PyObject* cSkeletalMotion_GetJointNames(PyObject *self, PyObject *args) {
+	PyObject *pyInst;
+
+	PyArg_ParseTuple(args, "O", &pyInst);
+	SkeletalMotion* skeletalMotionInstance = (SkeletalMotion*)PyCapsule_GetPointer(pyInst, "SkeletalMotion");
+
+	std::vector<std::string> jointNames;
+	skeletalMotionInstance->GetRoot(0)->GetJointNamesInOrder(jointNames);
+
+	PyObject* listObj = PyList_New(jointNames.size());
+	if (!listObj) throw logic_error("Unable to allocate memory for Python list");
+	for (unsigned int i = 0; i < jointNames.size(); i++)
+	{
+		PyObject *name = PyUnicode_FromString(jointNames.at(i).data());
+		if (!name)
+		{
+			Py_DECREF(listObj);
+			throw logic_error("Unable to allocate memory for Python list");
+		}
+		PyList_SET_ITEM(listObj, i, name);
+	}
+	return listObj;
+}
+
+PyObject* cSkeletalMotion_BonesByJointNames(PyObject *self, PyObject *args) {
+	PyObject *pyInst;
+
+	PyArg_ParseTuple(args, "O", &pyInst);
+	SkeletalMotion* skeletalMotionInstance = (SkeletalMotion*)PyCapsule_GetPointer(pyInst, "SkeletalMotion");
+
+	vector<pair<string, string>> bonesByName;
+	skeletalMotionInstance->GetRoot(0)->QuerySkeleton(NULL, &bonesByName);
+
+	PyObject* listObj = PyList_New(bonesByName.size());
+	if (!listObj) throw logic_error("Unable to allocate memory for Python list");
+	for (unsigned int i = 0; i < bonesByName.size(); i++)
+	{
+		PyObject* pairList = PyList_New(2);
+		PyObject *firstJoint = PyUnicode_FromString(bonesByName[i].first.data());
+		PyObject *secondJoint = PyUnicode_FromString(bonesByName[i].second.data());
+
+		if (!firstJoint || !secondJoint || !pairList)
+		{
+			Py_DECREF(listObj);
+			Py_DECREF(pairList);
+			throw logic_error("Unable to allocate memory for Python list");
+		}
+
+		PyList_SET_ITEM(pairList, 0, firstJoint);
+		PyList_SET_ITEM(pairList, 1, secondJoint);
+
+		PyList_SET_ITEM(listObj, i, pairList);
+	}
+	return listObj;
+}
+
 PyObject* cSkeletalMotion_GetCumulativeTransform(PyObject *self, PyObject *args) {
 	PyObject *pyInst;
 	int frameIndex;
@@ -171,6 +227,8 @@ PyMethodDef cSkeletalMotion_funcs[] = {
 	{ "getJointPositions", cSkeletalMotion_GetJointPositions, METH_VARARGS, "SkeletalMotion::GetJointPositions" },
 	{ "getCumTransform", cSkeletalMotion_GetCumulativeTransform, METH_VARARGS, "SkeletalMotion::GetCumulativeTransforms" },
 	{ "getSamplingRate", cSkeletalMotion_GetSamplingRate, METH_VARARGS, "SkeletalMotion::GetSamplingRate" },
+	{ "getJointNames", cSkeletalMotion_GetJointNames, METH_VARARGS, "SkeletalMotion::GetJointNames" },
+	{ "getBonesByJointNames", cSkeletalMotion_BonesByJointNames, METH_VARARGS, "SkeletalMotion::GetBonesByJointNames" },
 	{ NULL, NULL, 0, NULL }    /* Sentinel */
 };
 
