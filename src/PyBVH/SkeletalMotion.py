@@ -18,6 +18,9 @@ class SkeletalMotion:
 	def SetNormalizedScaleMultiplied(self, scale):
 		return csk.setNormalizedScale(self.c_instance, float(scale))
 	
+	def GetNormalizedScale(self):
+		return csk.getNormalizedScale(self.c_instance)
+	
 	def GetJointPositions(self, frame_index, add_root=False):
 		return csk.getJointPositions(self.c_instance, frame_index, 1 if add_root else 0)
 	

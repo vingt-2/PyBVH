@@ -219,6 +219,14 @@ PyObject* cSkeletalMotion_GetSamplingRate(PyObject *self, PyObject *args) {
 	return PyFloat_FromDouble((double)1.0f/skeletalMotionInstance->GetSamplingRate());
 }
 
+PyObject* cSkeletalMotion_GetNormalizedScale(PyObject *self, PyObject *args) {
+	PyObject *pyInst;
+	PyArg_ParseTuple(args, "O", &pyInst);
+	SkeletalMotion* skeletalMotionInstance = (SkeletalMotion*)PyCapsule_GetPointer(pyInst, "SkeletalMotion");
+
+	return PyFloat_FromDouble((double)skeletalMotionInstance->GetScale());
+}
+
 PyMethodDef cSkeletalMotion_funcs[] = {
 	{ "loadBVH" , cSkeletalMotion_LoadBVH, METH_VARARGS, "PyBVH::LoadBVH" },
 	{ "getName", cSkeletalMotion_GetName, METH_VARARGS, "SkeletalMotion::GetName" },
@@ -229,6 +237,7 @@ PyMethodDef cSkeletalMotion_funcs[] = {
 	{ "getSamplingRate", cSkeletalMotion_GetSamplingRate, METH_VARARGS, "SkeletalMotion::GetSamplingRate" },
 	{ "getJointNames", cSkeletalMotion_GetJointNames, METH_VARARGS, "SkeletalMotion::GetJointNames" },
 	{ "getBonesByJointNames", cSkeletalMotion_BonesByJointNames, METH_VARARGS, "SkeletalMotion::GetBonesByJointNames" },
+	{ "getNormalizedScale", cSkeletalMotion_GetNormalizedScale, METH_VARARGS, "SkeletalMotion::GetNormalizedScale" },
 	{ NULL, NULL, 0, NULL }    /* Sentinel */
 };
 

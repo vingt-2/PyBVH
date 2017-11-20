@@ -181,6 +181,8 @@ public:
 	*/
 	void SetScale(float scale) { m_skeletonScale = scale; }
 
+	float GetScale() { return m_skeletonScale; }
+
 	/*
 		Queries the local transform of a joint using it's name, for a specific frame index.
 	*/
